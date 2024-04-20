@@ -1,5 +1,5 @@
-import { startAppListening } from "@/middlewares/listenerMiddleware";
-import { createSlice } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "@/store";
+import { ListenerEffectAPI, createSlice } from "@reduxjs/toolkit";
 
 const themeSlice = createSlice({
   name: "theme",
@@ -25,16 +25,16 @@ const themeSlice = createSlice({
 
 export const { toggleDarkMode } = themeSlice.actions;
 
-startAppListening({
-  actionCreator: toggleDarkMode,
-  effect: (_, listenerApi) => {
-    const isDarkMode = listenerApi.getState().theme.isDarkMode;
-    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+export const toggleDarkModeEffect = (
+  _: ReturnType<typeof toggleDarkMode>,
+  listenerApi: ListenerEffectAPI<RootState, AppDispatch>
+) => {
+  const isDarkMode = listenerApi.getState().theme.isDarkMode;
+  localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
 
-    isDarkMode
-      ? document.documentElement.classList.add("dark")
-      : document.documentElement.classList.remove("dark");
-  },
-});
+  isDarkMode
+    ? document.documentElement.classList.add("dark")
+    : document.documentElement.classList.remove("dark");
+};
 
 export default themeSlice.reducer;
