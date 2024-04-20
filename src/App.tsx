@@ -5,12 +5,25 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import { store } from "./store";
 
-import "./App.css";
+import { Toaster } from "./components/ui/toaster";
+
+import AppLayout from "./components/AppLayout";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <h1>hello</h1>,
+    element: <AppLayout />,
+    children: [],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
   },
 ]);
 
@@ -20,7 +33,8 @@ function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />;
+        <RouterProvider router={router} />
+        <Toaster />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Provider>
