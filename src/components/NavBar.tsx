@@ -1,4 +1,14 @@
-import { MessageSquareText, Phone, Settings, Triangle } from "lucide-react";
+import { toggleDarkMode } from "@/features/theme/themeSlice";
+import type { AppDispatch } from "@/store";
+import {
+  MessageSquareText,
+  Phone,
+  Settings,
+  Sun,
+  Triangle,
+} from "lucide-react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import {
   Tooltip,
@@ -6,10 +16,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import { Link } from "react-router-dom";
 
 // TODO: active tab indicator (classname= "bg-accent text-accent-foreground")
 const NavBar = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden flex-col border-r bg-background sm:flex">
       <div className="p-2 border-b">
@@ -26,7 +37,7 @@ const NavBar = () => {
             <TooltipTrigger asChild>
               <Link
                 to="/chats"
-                className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
+                className="flex size-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground"
                 aria-label="Chats">
                 <MessageSquareText className="size-5" />
               </Link>
@@ -90,6 +101,14 @@ const NavBar = () => {
               Profile
             </TooltipContent>
           </Tooltip>
+
+          <Button
+            size="icon"
+            onClick={() => {
+              dispatch(toggleDarkMode());
+            }}>
+            <Sun className="size-5"></Sun>
+          </Button>
         </TooltipProvider>
       </nav>
     </aside>
