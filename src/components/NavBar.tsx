@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
   Tooltip,
@@ -22,8 +23,8 @@ const NavBar = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-10 hidden flex-col border-r bg-background sm:flex">
-      <div className="p-2 border-b">
+    <nav className="h-screen z-10 hidden flex-col border-r bg-background sm:flex">
+      <div className="h-16 p-3 border-b">
         <Button
           variant="ghost"
           size="icon"
@@ -31,13 +32,13 @@ const NavBar = () => {
           <Triangle className="size-5 fill-foreground" />
         </Button>
       </div>
-      <nav className="flex flex-col items-center gap-2 px-2 sm:py-5">
+      <div className="flex flex-col items-center gap-4 x-3 sm:py-5">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
                 to="/chats"
-                className="flex size-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground"
+                className="flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-muted"
                 aria-label="Chats">
                 <MessageSquareText className="size-5" />
               </Link>
@@ -52,7 +53,7 @@ const NavBar = () => {
             <TooltipTrigger asChild>
               <Link
                 to="/calls"
-                className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
+                className="flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 aria-label="Calls">
                 <Phone className="size-5" />
               </Link>
@@ -64,14 +65,14 @@ const NavBar = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </nav>
-      <nav className="mt-auto flex flex-col items-center gap-2 px-2 sm:py-5">
+      </div>
+      <div className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
                 to="/settings"
-                className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
+                className="flex size-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 aria-label="Settings">
                 <Settings className="size-5" />
               </Link>
@@ -87,12 +88,15 @@ const NavBar = () => {
             <TooltipTrigger asChild>
               <Link
                 to="/profile"
-                className="flex size-9 items-center justify-center rounded-lg opacity-85 transition-opacity hover:opacity-100"
+                className="flex size-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 opacity-85 transition-opacity hover:opacity-100"
                 aria-label="Profile">
-                <img
-                  src="https://images.unsplash.com/photo-1713145872144-351db3748385?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  className="size-5 rounded-full "
-                />
+                <Avatar className="size-6">
+                  <AvatarImage
+                    src="https://images.unsplash.com/photo-1713145872144-351db3748385?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="You"
+                  />
+                  <AvatarFallback className="text-xs">CN</AvatarFallback>
+                </Avatar>
               </Link>
             </TooltipTrigger>
             <TooltipContent
@@ -110,8 +114,8 @@ const NavBar = () => {
             <Sun className="size-5"></Sun>
           </Button>
         </TooltipProvider>
-      </nav>
-    </aside>
+      </div>
+    </nav>
   );
 };
 

@@ -3,11 +3,9 @@ import NavBar from "./NavBar";
 
 const AppLayout = () => {
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <div className="flex min-h-screen w-full">
       <NavBar />
-      <main className="flex-1">
-        <Outlet />
-      </main>
+      <Outlet />
     </div>
   );
 };

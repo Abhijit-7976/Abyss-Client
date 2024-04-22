@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useSignup } from "@/features/authentication/useSignup";
-import { useUser } from "@/features/authentication/useUser";
 
 const formSchema = z
   .object({
@@ -57,7 +56,6 @@ const Signup = () => {
 
   const { toast } = useToast();
   const { signup, isPending } = useSignup();
-  const { user, isLoading } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
