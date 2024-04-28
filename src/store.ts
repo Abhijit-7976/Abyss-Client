@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import themeReducer from "./features/theme/themeSlice";
+import wsReducers from "./features/webSocket/wsSlice";
 import { listenerMiddleware } from "./middlewares/listenerMiddleware";
 
 export const store = configureStore({
-  reducer: { theme: themeReducer },
+  reducer: { theme: themeReducer, ws: wsReducers },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 });
