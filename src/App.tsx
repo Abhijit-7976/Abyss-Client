@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Toaster } from "./components/ui/toaster";
 
 import AppLayout from "./components/AppLayout";
+import CallRoom from "./features/calls/CallRoom";
 import ChatRoom from "./features/chats/ChatRoom";
 import Chats from "./pages/Chats";
 import Login from "./pages/Login";
@@ -16,7 +17,10 @@ const router = createBrowserRouter([
       {
         path: "chats",
         element: <Chats />,
-        children: [{ path: ":id", element: <ChatRoom /> }],
+        children: [
+          { path: ":id", element: <ChatRoom /> },
+          { path: ":id/call", element: <CallRoom /> },
+        ],
       },
     ],
   },

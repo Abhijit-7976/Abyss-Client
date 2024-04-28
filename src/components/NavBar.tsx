@@ -38,7 +38,7 @@ const NavBar = () => {
             <TooltipTrigger asChild>
               <Link
                 to="/chats"
-                className="flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-muted"
+                className="flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 aria-label="Chats">
                 <MessageSquareText className="size-5" />
               </Link>
