@@ -1,12 +1,12 @@
-export type ApiData<T = null> = {
+export interface ApiData<T = null> {
   data: T;
   isOperational?: boolean;
   statusCode: number;
   message: string;
   status: "success" | "fail" | "error";
-};
+}
 
-export type User = {
+export interface User {
   _id: string;
   username: string;
   email: string;
@@ -18,9 +18,19 @@ export type User = {
   passwordChangedAt?: string;
   passwordResetToken?: string;
   resetTokenExpires?: string;
-};
+}
 
-export type AuthData = {
+export interface AuthData {
   user: User;
   token: string;
-};
+}
+
+export interface Chat {
+  _id: string;
+  name: string;
+  type: "private" | "group";
+  description?: string;
+  time?: string;
+  image: string;
+  ping?: boolean;
+}

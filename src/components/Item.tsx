@@ -4,18 +4,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 export interface ItemProps extends React.ComponentProps<typeof Button> {
-  username: string;
+  _id?: string;
+  name: string;
   description?: string;
-  avatar?: string;
-  time?: Date;
+  image?: string;
+  time?: string;
   active?: boolean;
   ping?: boolean;
 }
 
 const Item = ({
-  username,
+  name,
   description,
-  avatar,
+  image,
   time,
   active,
   ping,
@@ -31,11 +32,11 @@ const Item = ({
       )}>
       <Avatar className="relative size-12 row-span-2 ring-2 ring-background">
         <AvatarImage
-          src={avatar || ""}
-          alt={username}
+          src={image || ""}
+          alt={name}
         />
         <AvatarFallback className={cn("text-lg")}>
-          {username.charAt(0)}
+          {name.charAt(0).toUpperCase()}
         </AvatarFallback>
       </Avatar>
       <h5
@@ -43,7 +44,7 @@ const Item = ({
           "text-lg font-semibold tracking-tight w-full text-left",
           !description && "row-span-2"
         )}>
-        {username}
+        {name}
       </h5>
       {time && (
         <p className="text-sm text-muted-foreground justify-self-end">

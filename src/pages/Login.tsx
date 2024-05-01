@@ -17,8 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogin } from "@/features/authentication/useLogin";
-import { useUser } from "@/features/authentication/useUser";
-import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -36,8 +34,8 @@ const Login = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "user@test.com",
-      password: "12345678",
+      email: "test.abyss.1234@gmail.com",
+      password: "pass1234",
     },
   });
 

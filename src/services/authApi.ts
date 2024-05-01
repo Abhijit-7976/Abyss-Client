@@ -1,13 +1,17 @@
-import axios, { AxiosError } from "axios";
+import { axiosInstance as axios } from "@/lib/utils";
+import { AxiosError } from "axios";
 
-export type LoginParams = { email: string; password: string };
+export interface LoginParams {
+  email: string;
+  password: string;
+}
 
-export type SignupParams = {
+export interface SignupParams {
   username: string;
   dob: Date;
   email: string;
   password: string;
-};
+}
 
 export const getCurrentUser = async () => {
   try {
@@ -31,7 +35,7 @@ export const login = async ({ email, password }: LoginParams) => {
       password,
     });
 
-    return response.data;
+    return response.data.data.user;
   } catch (error) {
     if (error instanceof AxiosError) {
       const message = error.response?.data.message as string;
@@ -56,7 +60,7 @@ export const signup = async ({
       password,
     });
 
-    return response.data;
+    return response.data.data.user;
   } catch (error) {
     if (error instanceof AxiosError) {
       const message = error.response?.data.message as string;

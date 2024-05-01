@@ -15,7 +15,6 @@ export function useUser() {
   } = useQuery({
     queryKey: ["user"],
     queryFn: getCurrentUser,
-    retry: false,
   });
 
   if (error) {
@@ -31,5 +30,5 @@ export function useUser() {
     });
   }
 
-  return { user, error, isLoading };
+  return { user, isLoading };
 }

@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import List from "../../components/List";
+
 import { Button } from "../../components/ui/button";
 import {
   Tabs,
@@ -7,21 +7,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../components/ui/tabs";
+import GroupChats from "./GroupChats";
+import PrivateChats from "./PrivateChats";
 
 const ChatsMenu = () => {
-  const chats = Array.from({ length: 20 }).map((_, i) => {
-    return {
-      avatar:
-        i % 2 === 0
-          ? "https://images.unsplash.com/photo-1713145872144-351db3748385?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          : undefined,
-      username: "Shinigami",
-      time: i % 2 === 0 ? new Date() : undefined,
-      ping: i % 3 === 0 ? true : false,
-      description: i % 2 === 0 ? "Hello there! How are you?" : undefined,
-    };
-  });
-
   return (
     <Tabs defaultValue="private">
       <div className="flex h-16 items-center justify-between px-4 py-2 border-b">
@@ -41,13 +30,13 @@ const ChatsMenu = () => {
       </div>
       <TabsContent
         value="private"
-        className="mt-0">
-        <List data={chats} />
+        className="mt-0 h-[calc(100vh-4rem)]">
+        <PrivateChats />
       </TabsContent>
       <TabsContent
         value="group"
-        className="mt-0">
-        <List data={chats} />
+        className="mt-0 h-[calc(100vh-4rem)]">
+        <GroupChats />
       </TabsContent>
     </Tabs>
   );
