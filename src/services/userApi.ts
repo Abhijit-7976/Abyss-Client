@@ -1,0 +1,49 @@
+import { PageParams } from "@/lib/types";
+import { axiosInstance as axios } from "@/lib/utils";
+import { AxiosError } from "axios";
+
+export const getAllUsers = async ({ search, page, size }: PageParams) => {
+  try {
+    const response = await axios.get("/api/v1/users", {
+      params: {
+        search,
+        page,
+        limit: size,
+      },
+    });
+
+    return response.data.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const message = error.response?.data.message as string;
+      if (message) throw new Error(message);
+
+      throw new Error("Unable to fetch all users.");
+    }
+  }
+};
+
+export const getAllUnknownUsers = async ({
+  search,
+  page,
+  size,
+}: PageParams) => {
+  try {
+    const response = await axios.get("/api/v1/users/unknown", {
+      params: {
+        search,
+        page,
+        limit: size,
+      },
+    });
+
+    return response.data.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const message = error.response?.data.message as string;
+      if (message) throw new Error(message);
+
+      throw new Error("Unable to fetch unknown users.");
+    }
+  }
+};

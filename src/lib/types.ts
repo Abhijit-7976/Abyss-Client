@@ -9,6 +9,8 @@ export interface ApiData<T = null> {
 export interface User {
   _id: string;
   username: string;
+  avatar?: string;
+  coverImage?: string;
   email: string;
   password: string;
   dob: string;
@@ -25,12 +27,19 @@ export interface AuthData {
   token: string;
 }
 
+export interface PageParams {
+  search: string;
+  page: number;
+  size: number;
+}
+
 export interface Chat {
   _id: string;
   name: string;
   type: "private" | "group";
-  description?: string;
-  time?: string;
+  lastMessage?: string;
   image: string;
   ping?: boolean;
+  createdAt: string;
+  updatedAt: string;
 }

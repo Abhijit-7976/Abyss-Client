@@ -17,14 +17,16 @@ const PrivateChats = () => {
 
   const { ref, inView } = useInView();
 
-  const { data, fetchNextPage, isFetching, isFetchingNextPage } =
+  const { privateChatsData, fetchNextPage, isFetching, isFetchingNextPage } =
     usePrivateChats(privatePageParams);
 
   useEffect(() => {
     if (!isFetching) {
-      setPrivateChats(data?.pages.flatMap(page => page.chats) || []);
+      setPrivateChats(
+        privateChatsData?.pages.flatMap(page => page.chats) || []
+      );
     }
-  }, [data?.pages, isFetching]);
+  }, [privateChatsData?.pages, isFetching]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -51,9 +53,7 @@ const PrivateChats = () => {
         <div className="relative">
           <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
           <Input
-            onChange={e => {
-              setPrivateChatSearch(e.target.value);
-            }}
+            onChange={e => setPrivateChatSearch(e.target.value)}
             placeholder="Search"
             className="pl-8 bg-background/60 hover:bg-background/80 transition-colors"
           />

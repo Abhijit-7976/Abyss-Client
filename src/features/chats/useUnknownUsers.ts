@@ -1,22 +1,21 @@
 import { useToast } from "@/components/ui/use-toast";
 import { PageParams } from "@/lib/types";
-import { getAllGroupChats } from "@/services/chatApi";
+import { getAllUnknownUsers } from "@/services/userApi";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const useGroupChats = (pageParams: PageParams) => {
+export const useUnknownUsers = (pageParams: PageParams) => {
   const { search, size } = pageParams;
   const { toast } = useToast();
 
   const {
-    data: groupChatsData,
+    data: usersData,
     error,
     isLoading,
-    isFetching,
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["groupChats", search],
-    queryFn: params => getAllGroupChats(params.pageParam),
+    queryKey: ["users", search],
+    queryFn: params => getAllUnknownUsers(params.pageParam),
     initialPageParam: pageParams,
     getNextPageParam: lastPage => {
       const { page, isLast } = lastPage;
@@ -34,9 +33,8 @@ export const useGroupChats = (pageParams: PageParams) => {
   }
 
   return {
-    groupChatsData,
+    usersData,
     isLoading,
-    isFetching,
     fetchNextPage,
     isFetchingNextPage,
   };

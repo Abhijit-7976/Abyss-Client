@@ -1,5 +1,6 @@
 import { useToast } from "@/components/ui/use-toast";
-import { PageParams, getAllPrivateChats } from "@/services/chatApi";
+import { PageParams } from "@/lib/types";
+import { getAllPrivateChats } from "@/services/chatApi";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const usePrivateChats = (pageParams: PageParams) => {
@@ -7,7 +8,7 @@ export const usePrivateChats = (pageParams: PageParams) => {
   const { toast } = useToast();
 
   const {
-    data,
+    data: privateChatsData,
     error,
     isLoading,
     isFetching,
@@ -33,7 +34,7 @@ export const usePrivateChats = (pageParams: PageParams) => {
   }
 
   return {
-    data,
+    privateChatsData,
     isLoading,
     isFetching,
     fetchNextPage,

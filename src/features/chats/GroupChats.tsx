@@ -17,14 +17,14 @@ const GroupChats = () => {
 
   const { ref, inView } = useInView();
 
-  const { data, fetchNextPage, isFetching, isFetchingNextPage } =
+  const { groupChatsData, fetchNextPage, isFetching, isFetchingNextPage } =
     useGroupChats(groupPageParams);
 
   useEffect(() => {
     if (!isFetching) {
-      setGroupChats(data?.pages.flatMap(page => page.chats) || []);
+      setGroupChats(groupChatsData?.pages.flatMap(page => page.chats) || []);
     }
-  }, [data?.pages, isFetching]);
+  }, [groupChatsData?.pages, isFetching]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -51,9 +51,7 @@ const GroupChats = () => {
         <div className="relative">
           <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
           <Input
-            onChange={e => {
-              setGroupChatSearch(e.target.value);
-            }}
+            onChange={e => setGroupChatSearch(e.target.value)}
             placeholder="Search"
             className="pl-8 bg-background/60 hover:bg-background/80 transition-colors"
           />

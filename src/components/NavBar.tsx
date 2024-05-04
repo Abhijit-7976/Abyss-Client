@@ -8,7 +8,7 @@ import {
   Triangle,
 } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
@@ -18,7 +18,16 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 
-// TODO: active tab indicator (classname= "bg-accent text-accent-foreground")
+const classNameFunc: (props: {
+  isActive: boolean;
+  isPending: boolean;
+  isTransitioning: boolean;
+}) => string | undefined = ({ isActive }) => {
+  return isActive
+    ? "flex size-10 items-center justify-center rounded-lg hover:text-foreground ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-accent text-accent-foreground"
+    : "flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 opacity-85 hover:opacity-100";
+};
+
 const NavBar = () => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -35,13 +44,13 @@ const NavBar = () => {
       <div className="flex flex-col items-center gap-4 x-3 sm:py-5">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
+            <TooltipTrigger>
+              <NavLink
                 to="/chats"
-                className="flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-muted"
+                className={classNameFunc}
                 aria-label="Chats">
                 <MessageSquareText className="size-5" />
-              </Link>
+              </NavLink>
             </TooltipTrigger>
             <TooltipContent
               side="right"
@@ -50,13 +59,13 @@ const NavBar = () => {
             </TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
+            <TooltipTrigger>
+              <NavLink
                 to="/calls"
-                className="flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                className={classNameFunc}
                 aria-label="Calls">
                 <Phone className="size-5" />
-              </Link>
+              </NavLink>
             </TooltipTrigger>
             <TooltipContent
               side="right"
@@ -69,13 +78,13 @@ const NavBar = () => {
       <div className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
+            <TooltipTrigger>
+              <NavLink
                 to="/settings"
-                className="flex size-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                className={classNameFunc}
                 aria-label="Settings">
                 <Settings className="size-5" />
-              </Link>
+              </NavLink>
             </TooltipTrigger>
             <TooltipContent
               side="right"
@@ -85,10 +94,10 @@ const NavBar = () => {
           </Tooltip>
 
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
+            <TooltipTrigger>
+              <NavLink
                 to="/profile"
-                className="flex size-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 opacity-85 transition-opacity hover:opacity-100"
+                className={classNameFunc}
                 aria-label="Profile">
                 <Avatar className="size-6">
                   <AvatarImage
@@ -97,7 +106,7 @@ const NavBar = () => {
                   />
                   <AvatarFallback className="text-xs">CN</AvatarFallback>
                 </Avatar>
-              </Link>
+              </NavLink>
             </TooltipTrigger>
             <TooltipContent
               side="right"
