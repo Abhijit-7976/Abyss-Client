@@ -12,6 +12,7 @@ export const usePrivateChat = () => {
   const {
     data: privateChat,
     isLoading,
+    isPending,
     error,
   } = useQuery({
     queryKey: ["chat", chatId],
@@ -31,5 +32,5 @@ export const usePrivateChat = () => {
     });
   }
 
-  return { privateChat, isLoading };
+  return { privateChat, isPending, isLoading };
 };

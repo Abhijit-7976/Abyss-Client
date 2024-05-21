@@ -15,8 +15,11 @@ export interface User {
   password: string;
   dob: string;
   role: string;
-  createdAt: string;
-  updatedAt: string;
+  friends: string[];
+  privateChats: string[];
+  groupChats: string[];
+  createdAt: Date;
+  updatedAt: Date;
   passwordChangedAt?: string;
   passwordResetToken?: string;
   resetTokenExpires?: string;
@@ -29,8 +32,20 @@ export interface AuthData {
 
 export interface PageParams {
   search: string;
+  page?: number;
+  size?: number;
+}
+
+export interface ChatPage {
   page: number;
-  size: number;
+  isLast: boolean;
+  chats: Chat[];
+}
+
+export interface UsersPage {
+  page: number;
+  isLast: boolean;
+  users: User[];
 }
 
 export interface Chat {
@@ -40,6 +55,40 @@ export interface Chat {
   lastMessage?: string;
   image: string;
   ping?: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface MessagePageParams {
+  chatId: string;
+  cursor?: string;
+  size?: number;
+}
+
+export interface ChatApiData {
+  page: number;
+  isLast: boolean;
+  chats: Chat[];
+}
+
+export interface Sender {
+  _id: string;
+  username: string;
+  avatar?: string;
+  email: string;
+}
+
+export interface ChatMessage {
+  _id: string;
+  sender: Sender;
+  text?: string;
+  createdAt: Date;
+  // updatedAt: Date;
+  attachments?: string[];
+}
+
+export interface ChatMessagesApiData {
+  messages: ChatMessage[];
+  hasNext: boolean;
+  lastCursor?: string;
 }

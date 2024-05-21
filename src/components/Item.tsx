@@ -8,7 +8,7 @@ export interface ItemProps extends React.ComponentProps<typeof Button> {
   name: string;
   description?: string;
   image?: string;
-  time?: string;
+  time?: Date;
   active?: boolean;
   ping?: boolean;
 }
@@ -43,7 +43,8 @@ const Item = ({
           src={image || ""}
           alt={name}
         />
-        <AvatarFallback className={cn("text-lg", size === "sm" && "text-md")}>
+        <AvatarFallback
+          className={cn("text-xl font-semibold", size === "sm" && "text-md")}>
           {name.charAt(0).toUpperCase()}
         </AvatarFallback>
       </Avatar>
@@ -57,7 +58,7 @@ const Item = ({
       </h5>
       {time && (
         <p className="text-sm text-muted-foreground justify-self-end">
-          {format(time.toString(), "p")}
+          {format(time, "HH:mm")}
         </p>
       )}
       {description && (

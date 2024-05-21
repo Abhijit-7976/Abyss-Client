@@ -1,3 +1,4 @@
+import { User } from "@/lib/types";
 import { axiosInstance as axios } from "@/lib/utils";
 import { AxiosError } from "axios";
 
@@ -17,7 +18,7 @@ export const getCurrentUser = async () => {
   try {
     const response = await axios.get("/api/v1/auth/me");
 
-    return response.data.data.user;
+    return response.data.data.user as User;
   } catch (error) {
     if (error instanceof AxiosError) {
       const message = error.response?.data.message as string;
@@ -35,7 +36,7 @@ export const login = async ({ email, password }: LoginParams) => {
       password,
     });
 
-    return response.data.data.user;
+    return response.data.data.user as User;
   } catch (error) {
     if (error instanceof AxiosError) {
       const message = error.response?.data.message as string;
@@ -60,7 +61,7 @@ export const signup = async ({
       password,
     });
 
-    return response.data.data.user;
+    return response.data.data.user as User;
   } catch (error) {
     if (error instanceof AxiosError) {
       const message = error.response?.data.message as string;

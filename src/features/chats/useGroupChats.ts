@@ -1,8 +1,9 @@
 import { useToast } from "@/components/ui/use-toast";
-import { PageParams } from "@/lib/types";
+import type { Chat, ChatApiData, ChatPage, PageParams } from "@/lib/types";
 import { getAllGroupChats } from "@/services/chatApi";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, type QueryKey } from "@tanstack/react-query";
 
+// FIXME: fix types
 export const useGroupChats = (pageParams: PageParams) => {
   const { search, size } = pageParams;
   const { toast } = useToast();
@@ -10,17 +11,20 @@ export const useGroupChats = (pageParams: PageParams) => {
   const {
     data: groupChatsData,
     error,
-    isLoading,
+    isPending,
     isFetching,
     fetchNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<ChatApiData, Error, Chat[], QueryKey, PageParams>({
     queryKey: ["groupChats", search],
     queryFn: params => getAllGroupChats(params.pageParam),
     initialPageParam: pageParams,
-    getNextPageParam: lastPage => {
+    getNextPageParam: (lastPage: ChatPage) => {
       const { page, isLast } = lastPage;
       return isLast ? undefined : { search, page: page + 1, size };
+    },
+    select(data) {
+      return data.pages.flatMap(page => page.chats);
     },
   });
 
@@ -35,7 +39,7 @@ export const useGroupChats = (pageParams: PageParams) => {
 
   return {
     groupChatsData,
-    isLoading,
+    isPending,
     isFetching,
     fetchNextPage,
     isFetchingNextPage,

@@ -1,6 +1,6 @@
-import { Chat } from "@/lib/types";
+import type { Chat } from "@/lib/types";
 import { Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Item, { ItemProps } from "./Item";
 import { ScrollArea } from "./ui/scroll-area";
 
@@ -13,6 +13,7 @@ interface ListProps {
 
 const List = ({ data, size, infiniteScrollRef, isFetching }: ListProps) => {
   const navigate = useNavigate();
+  const { chatId } = useParams();
 
   return (
     <>
@@ -20,6 +21,7 @@ const List = ({ data, size, infiniteScrollRef, isFetching }: ListProps) => {
         <div className="px-4 py-1 space-y-2">
           {data.map(item => (
             <Item
+              className={chatId === item._id ? "bg-accent" : ""}
               key={item._id}
               name={item.name}
               description={

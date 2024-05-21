@@ -27,9 +27,8 @@ const ChatsMenu = () => {
         <h4 className="text-xl font-semibold tracking-tight">Chats</h4>
         <div className="flex items-center gap-2">
           <Popover
-            onOpenChange={open => {
-              setCreateChatOpen(open);
-            }}>
+            open={createChatOpen}
+            onOpenChange={setCreateChatOpen}>
             <PopoverTrigger asChild>
               <Button
                 className={cn(
@@ -45,7 +44,10 @@ const ChatsMenu = () => {
               className="p-0"
               sideOffset={8}
               align="start">
-              <CreateChats open={createChatOpen} />
+              <CreateChats
+                open={createChatOpen}
+                setOpen={setCreateChatOpen}
+              />
             </PopoverContent>
           </Popover>
           <TabsList>

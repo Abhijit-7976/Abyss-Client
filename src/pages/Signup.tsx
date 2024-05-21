@@ -23,7 +23,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useToast } from "@/components/ui/use-toast";
 import { useSignup } from "@/features/authentication/useSignup";
 
 const formSchema = z
@@ -54,7 +53,6 @@ const formSchema = z
 const Signup = () => {
   const navigate = useNavigate();
 
-  const { toast } = useToast();
   const { signup, isPending } = useSignup();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -72,12 +70,6 @@ const Signup = () => {
     signup(values, {
       onSuccess: () => {
         navigate("/");
-      },
-      onError: err => {
-        toast({
-          variant: "destructive",
-          title: err.message,
-        });
       },
     });
   }

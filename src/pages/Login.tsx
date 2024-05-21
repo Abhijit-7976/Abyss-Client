@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import { useLogin } from "@/features/authentication/useLogin";
 
 const formSchema = z.object({
@@ -28,7 +27,6 @@ const formSchema = z.object({
 const Login = () => {
   const navigate = useNavigate();
 
-  const { toast } = useToast();
   const { login, isPending } = useLogin();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,12 +41,6 @@ const Login = () => {
     login(values, {
       onSuccess: () => {
         navigate("/");
-      },
-      onError: err => {
-        toast({
-          variant: "destructive",
-          title: err.message,
-        });
       },
     });
   }

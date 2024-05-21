@@ -12,7 +12,7 @@ import { store } from "./store.ts";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,
+      staleTime: Infinity,
       refetchOnWindowFocus: false,
       retry: false,
     },
@@ -25,7 +25,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <App />
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools
+          buttonPosition="top-left"
+          initialIsOpen={false}
+        />
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>

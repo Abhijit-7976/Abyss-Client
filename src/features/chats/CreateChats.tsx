@@ -1,4 +1,5 @@
 import Item from "@/components/Item";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { User } from "@/lib/types";
@@ -6,14 +7,17 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import ConfirmCreatePrivateChat from "./ConfirmCreatePrivateChat";
 import { useUnknownUsers } from "./useUnknownUsers";
 
 interface CreateChatsProps {
   open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreateChats = ({ open }: CreateChatsProps) => {
+const CreateChats = ({ open, setOpen }: CreateChatsProps) => {
   const queryClient = useQueryClient();
+  const [dialogFriend, setDialogFriend] = useState("");
   const [usersSearch, setUsersSearch] = useState("");
   const [usersParams, setUsersParams] = useState({
     search: "",
@@ -67,23 +71,43 @@ const CreateChats = ({ open }: CreateChatsProps) => {
           placeholder="Search"
         />
       </div>
-      <ScrollArea className="h-[21.75rem] mb-3">
-        <div className="px-3 py-1 space-y-2">
-          {users.map(user => (
-            <Item
-              key={user._id}
-              name={user.username}
-              image={user?.avatar}
-              size="sm"
-            />
-          ))}
-        </div>
-        <div ref={ref}>
-          {isFetchingNextPage && (
-            <Loader2 className=" mx-auto animate-spin text-muted-foreground" />
-          )}
-        </div>
-      </ScrollArea>
+
+      {isLoading ? (
+        <Loader2 className="mt-2 mx-auto animate-spin text-muted-foreground mb-3" />
+      ) : (
+        <ScrollArea className="h-[21.75rem] mb-3">
+          <div className="px-3 py-1 space-y-2">
+            {users.map(user => (
+              <Dialog
+                key={user._id}
+                open={dialogFriend === user._id}
+                onOpenChange={open => {
+                  open ? setDialogFriend(user._id) : setDialogFriend("");
+                }}>
+                <DialogTrigger asChild>
+                  <Item
+                    name={user.username}
+                    image={user?.avatar}
+                    size="sm"
+                  />
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <ConfirmCreatePrivateChat
+                    user={user}
+                    setDialogFriend={setDialogFriend}
+                    setCreateOpen={setOpen}
+                  />
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
+          <div ref={ref}>
+            {isFetchingNextPage && (
+              <Loader2 className=" mx-auto animate-spin text-muted-foreground" />
+            )}
+          </div>
+        </ScrollArea>
+      )}
     </>
   );
 };

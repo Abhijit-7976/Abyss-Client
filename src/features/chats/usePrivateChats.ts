@@ -1,8 +1,9 @@
 import { useToast } from "@/components/ui/use-toast";
-import { PageParams } from "@/lib/types";
+import type { Chat, ChatApiData, ChatPage, PageParams } from "@/lib/types";
 import { getAllPrivateChats } from "@/services/chatApi";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { QueryKey, useInfiniteQuery } from "@tanstack/react-query";
 
+// FIXME: fix types
 export const usePrivateChats = (pageParams: PageParams) => {
   const { search, size } = pageParams;
   const { toast } = useToast();
@@ -10,17 +11,20 @@ export const usePrivateChats = (pageParams: PageParams) => {
   const {
     data: privateChatsData,
     error,
-    isLoading,
+    isPending,
     isFetching,
     fetchNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<ChatApiData, Error, Chat[], QueryKey, PageParams>({
     queryKey: ["privateChats", search],
     queryFn: params => getAllPrivateChats(params.pageParam),
     initialPageParam: pageParams,
-    getNextPageParam: lastPage => {
+    getNextPageParam: (lastPage: ChatPage) => {
       const { page, isLast } = lastPage;
       return isLast ? undefined : { search, page: page + 1, size };
+    },
+    select(data) {
+      return data.pages.flatMap(page => page.chats);
     },
   });
 
@@ -35,7 +39,7 @@ export const usePrivateChats = (pageParams: PageParams) => {
 
   return {
     privateChatsData,
-    isLoading,
+    isPending,
     isFetching,
     fetchNextPage,
     isFetchingNextPage,

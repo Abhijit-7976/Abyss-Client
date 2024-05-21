@@ -11,13 +11,13 @@ const AppLayout = () => {
     state => state.ws.chatSocket
   );
 
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
 
   useEffect(() => {
-    if (user) {
-      chatSocket.emit("user_connected", { userId: user._id });
+    if (!isLoading) {
+      chatSocket.emit("user_connected", { userId: user!._id });
     }
-  }, [chatSocket, user]);
+  }, [chatSocket, isLoading, user]);
 
   return (
     <div className="flex min-h-screen w-full">

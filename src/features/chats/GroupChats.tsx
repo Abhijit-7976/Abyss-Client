@@ -1,7 +1,6 @@
 import List from "@/components/List";
 import { Input } from "@/components/ui/input";
-import { Chat } from "@/lib/types";
-import { Search } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useGroupChats } from "./useGroupChats";
@@ -13,18 +12,11 @@ const GroupChats = () => {
     page: 1,
     size: 10,
   });
-  const [groupChats, setGroupChats] = useState<Array<Chat>>([]);
 
   const { ref, inView } = useInView();
 
-  const { groupChatsData, fetchNextPage, isFetching, isFetchingNextPage } =
+  const { groupChatsData, fetchNextPage, isPending, isFetchingNextPage } =
     useGroupChats(groupPageParams);
-
-  useEffect(() => {
-    if (!isFetching) {
-      setGroupChats(groupChatsData?.pages.flatMap(page => page.chats) || []);
-    }
-  }, [groupChatsData?.pages, isFetching]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -52,17 +44,22 @@ const GroupChats = () => {
           <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             onChange={e => setGroupChatSearch(e.target.value)}
+            value={groupChatSearch}
             placeholder="Search"
             className="pl-8 bg-background/60 hover:bg-background/80 transition-colors"
           />
         </div>
       </div>
 
-      <List
-        data={groupChats}
-        infiniteScrollRef={ref}
-        isFetching={isFetchingNextPage}
-      />
+      {isPending ? (
+        <Loader2 className="mx-auto animate-spin text-muted-foreground" />
+      ) : (
+        <List
+          data={groupChatsData}
+          infiniteScrollRef={ref}
+          isFetching={isFetchingNextPage}
+        />
+      )}
     </>
   );
 };

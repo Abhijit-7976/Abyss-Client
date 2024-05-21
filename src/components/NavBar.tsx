@@ -24,7 +24,7 @@ const classNameFunc: (props: {
   isTransitioning: boolean;
 }) => string | undefined = ({ isActive }) => {
   return isActive
-    ? "flex size-10 items-center justify-center rounded-lg hover:text-foreground ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-accent text-accent-foreground"
+    ? "flex size-10 items-center justify-center rounded-lg hover:text-foreground ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground"
     : "flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 opacity-85 hover:opacity-100";
 };
 
