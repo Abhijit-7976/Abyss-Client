@@ -102,9 +102,9 @@ const ChatRoom = () => {
               {privateChat!.name}
             </h5>
 
-            <p className="text-sm text-muted-foreground overflow-hidden w-full">
+            {/* <p className="text-sm text-muted-foreground overflow-hidden w-full">
               Online
-            </p>
+            </p> */}
           </div>
         )}
         <div className="ml-auto space-x-2">
@@ -136,6 +136,7 @@ const ChatRoom = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="h-16 flex items-center gap-2 border-t px-4 py-3">
           <Button
+            type="button"
             disabled={isPending}
             className="rounded-full"
             variant="secondary"
