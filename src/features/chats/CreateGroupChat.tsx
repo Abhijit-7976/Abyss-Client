@@ -74,7 +74,7 @@ const CreateGroupChat = ({
   return (
     <div
       className={cn(
-        "absolute pt-1 flex flex-col gap-2 rounded-md translate-x-full transition-all invisible size-[calc(100%-2px)] bg-background",
+        "absolute pt-1.5 flex flex-col gap-2 rounded-md translate-x-full transition-all invisible size-[calc(100%-2px)] bg-background",
         open && "translate-x-0 visible",
         className
       )}>

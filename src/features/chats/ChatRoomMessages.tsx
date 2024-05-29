@@ -38,7 +38,9 @@ const ChatRoomMessages = () => {
 
   return (
     <>
-      <div className="flex flex-col-reverse overflow-auto h-[calc(100vh-8rem)] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-border scrollbar-track-background">
+      <div
+        id="chat_room_messages"
+        className="flex flex-col-reverse overflow-auto h-[calc(100vh-8rem)] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-border scrollbar-track-background">
         <div className="flex-1 flex flex-col px-32 py-2">
           {chatMessageData.map((message, index) => {
             const isCurrentUser = message.sender._id === user?._id;

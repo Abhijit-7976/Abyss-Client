@@ -59,12 +59,17 @@ const NavBar = () => {
 
           <Tooltip>
             <TooltipTrigger>
-              <NavLink
+              {/* <NavLink
                 to="/calls"
                 className={classNameFunc}
                 aria-label="Calls">
                 <Phone className="size-5" />
-              </NavLink>
+              </NavLink> */}
+              <Button
+                variant="ghost"
+                size="icon">
+                <Phone className="size-5" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent
               side="right"
