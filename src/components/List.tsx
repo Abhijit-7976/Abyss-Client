@@ -5,7 +5,7 @@ import Item, { ItemProps } from "./Item";
 import { ScrollArea } from "./ui/scroll-area";
 
 interface ListProps {
-  data: Array<ItemProps | Chat>;
+  data?: Array<ItemProps | Chat>;
   infiniteScrollRef?: (node?: Element | null | undefined) => void;
   isFetching: boolean;
   size?: "default" | "sm" | "lg";
@@ -19,7 +19,7 @@ const List = ({ data, size, infiniteScrollRef, isFetching }: ListProps) => {
     <>
       <ScrollArea className="h-[calc(100vh-9.5rem)]">
         <div className="px-4 py-1 space-y-2">
-          {data.map(item => (
+          {data?.map(item => (
             <Item
               className={chatId === item._id ? "bg-accent" : ""}
               key={item._id}

@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/select";
 import { AppDispatch, RootState } from "@/store";
 import { Label } from "@radix-ui/react-label";
-import { SelectLabel } from "@radix-ui/react-select";
 import { Moon, Palette, Sun } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTheme } from "../theme/themeSlice";

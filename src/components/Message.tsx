@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface MessageProps {
   isAvatar: boolean;
-  data: ChatMessage;
+  data?: ChatMessage;
   isCurrentUser: boolean;
   isPrevSameSender: boolean;
   isNextSameSender: boolean;
@@ -34,11 +34,11 @@ const Message = ({
             isCurrentUser && "border ring-2 ring-primary"
           )}>
           <AvatarImage
-            src={data.sender.avatar || ""}
-            alt={data.sender.username || "user avatar"}
+            src={data!.sender.avatar || ""}
+            alt={data!.sender.username || "user avatar"}
           />
           <AvatarFallback className="text-md font-semibold">
-            {data.sender.username.charAt(0).toUpperCase()}
+            {data!.sender.username.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       ) : null}
@@ -53,14 +53,14 @@ const Message = ({
           //   : "bg-green-500 text-primary"
         )}>
         <p>
-          {data.text?.trim()}
+          {data?.text?.trim()}
           <span className="ml-5 invisible text-xs text-[.7rem]">00:00</span>
           <span
             className={cn(
               "absolute bottom-1 right-2 self-end text-[.7rem] text-foreground/70",
               isCurrentUser && "text-primary-foreground/70"
             )}>
-            {format(data.createdAt, "HH:mm")}
+            {format(data!.createdAt!, "HH:mm")}
           </span>
         </p>
       </div>

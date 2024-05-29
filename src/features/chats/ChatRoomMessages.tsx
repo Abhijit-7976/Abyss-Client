@@ -42,7 +42,7 @@ const ChatRoomMessages = () => {
         id="chat_room_messages"
         className="flex flex-col-reverse overflow-auto h-[calc(100vh-8rem)] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-border scrollbar-track-background">
         <div className="flex-1 flex flex-col px-32 py-2">
-          {chatMessageData.map((message, index) => {
+          {chatMessageData?.map((message, index) => {
             const isCurrentUser = message.sender._id === user?._id;
             const isPrevSameSender =
               chatMessageData[index - 1]?.sender._id === message.sender._id;
@@ -70,7 +70,7 @@ const ChatRoomMessages = () => {
             const prevMessage =
               index > 0
                 ? newMessages[index - 1]
-                : chatMessageData[chatMessageData.length - 1];
+                : chatMessageData?.at(chatMessageData.length - 1);
 
             const isPrevSameSender =
               prevMessage?.sender._id === message.sender._id;

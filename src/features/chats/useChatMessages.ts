@@ -6,7 +6,6 @@ import type {
 } from "@/lib/types";
 import { getChatMessages } from "@/services/chatApi";
 import { useInfiniteQuery, type QueryKey } from "@tanstack/react-query";
-import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 // FIXME: fix types
@@ -23,7 +22,7 @@ export const useChatMessages = (size?: number) => {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery<
-    ChatMessagesApiData,
+    ChatMessagesApiData | undefined,
     Error,
     ChatMessage[],
     QueryKey,
@@ -32,8 +31,8 @@ export const useChatMessages = (size?: number) => {
     queryKey: ["messages", chatId],
     queryFn: params => getChatMessages(params.pageParam),
     initialPageParam: { chatId, size },
-    getNextPageParam: (lastPage: ChatMessagesApiData) => {
-      const { hasNext, lastCursor } = lastPage;
+    getNextPageParam: (lastPage?: ChatMessagesApiData) => {
+      const { hasNext, lastCursor } = lastPage!;
       if (!hasNext) return undefined;
       return { chatId, cursor: lastCursor, size };
     },
@@ -44,8 +43,8 @@ export const useChatMessages = (size?: number) => {
 
       const length = data.pages.length;
       for (let i = length - 1; i >= 0; i--) {
-        if (data.pages[i].messages.length > 0) {
-          messages.push(...data.pages[i].messages);
+        if (data.pages[i]!.messages.length > 0) {
+          messages.push(...data.pages[i]!.messages);
         }
       }
       return messages;

@@ -15,17 +15,26 @@ export const usePrivateChats = (pageParams: PageParams) => {
     isFetching,
     fetchNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery<ChatApiData, Error, Chat[], QueryKey, PageParams>({
+  } = useInfiniteQuery<
+    ChatApiData | undefined,
+    Error,
+    Chat[],
+    QueryKey,
+    PageParams
+  >({
     queryKey: ["privateChats", search],
-    queryFn: params => getAllPrivateChats(params.pageParam),
+    queryFn: params => {
+      console.log(params);
+      return getAllPrivateChats(params.pageParam);
+    },
     initialPageParam: pageParams,
-    getNextPageParam: (lastPage: ChatPage) => {
-      const { page, isLast } = lastPage;
+    getNextPageParam: (lastPage?: ChatPage) => {
+      const { page, isLast } = lastPage!;
       return isLast ? undefined : { search, page: page + 1, size };
     },
     select(data) {
       if (!data) return [];
-      return data.pages.flatMap(page => page.chats);
+      return data.pages.flatMap(page => page!.chats);
     },
   });
 
