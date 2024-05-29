@@ -24,6 +24,7 @@ export const usePrivateChats = (pageParams: PageParams) => {
       return isLast ? undefined : { search, page: page + 1, size };
     },
     select(data) {
+      if (!data) return [];
       return data.pages.flatMap(page => page.chats);
     },
   });

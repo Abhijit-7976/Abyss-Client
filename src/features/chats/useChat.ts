@@ -20,14 +20,11 @@ export const usePrivateChat = () => {
   });
 
   if (error) {
-    console.log(error.message);
-
     setTimeout(() => {
       toast({
         variant: "destructive",
         title: error.message,
       });
-      queryClient.invalidateQueries({ queryKey: ["chat", chatId] });
       navigate("/chats");
     });
   }

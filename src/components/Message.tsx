@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface MessageProps {
+  isAvatar: boolean;
   data: ChatMessage;
   isCurrentUser: boolean;
   isPrevSameSender: boolean;
@@ -11,6 +12,7 @@ interface MessageProps {
 }
 
 const Message = ({
+  isAvatar,
   data,
   isCurrentUser,
   isPrevSameSender,
@@ -24,20 +26,22 @@ const Message = ({
         !isNextSameSender && "mb-2",
         isCurrentUser && "flex-row-reverse self-end"
       )}>
-      <Avatar
-        className={cn(
-          "size-8",
-          isPrevSameSender && "invisible",
-          isCurrentUser && "border ring-2 ring-primary"
-        )}>
-        <AvatarImage
-          src={data.sender.avatar || ""}
-          alt={data.sender.username || "user avatar"}
-        />
-        <AvatarFallback className="text-md font-semibold">
-          {data.sender.username.charAt(0).toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+      {isAvatar ? (
+        <Avatar
+          className={cn(
+            "size-8",
+            isPrevSameSender && "invisible",
+            isCurrentUser && "border ring-2 ring-primary"
+          )}>
+          <AvatarImage
+            src={data.sender.avatar || ""}
+            alt={data.sender.username || "user avatar"}
+          />
+          <AvatarFallback className="text-md font-semibold">
+            {data.sender.username.charAt(0).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      ) : null}
       <div
         className={cn(
           "relative flex p-2 border rounded-md",

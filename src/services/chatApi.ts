@@ -73,11 +73,38 @@ export const createPrivateChat = async ({
   message,
 }: {
   friendId: string;
-  message?: string;
+  message: string;
 }) => {
   try {
     const response = await axios.post("/api/v1/chats/createPrivateChats", {
       friendId,
+      message,
+    });
+
+    return response.data.data.chat as Chat;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const message = error.response?.data.message as string;
+      if (message) throw new Error(message);
+
+      throw new Error("Unable to create private chat.");
+    }
+  }
+};
+
+export const createGroupChat = async ({
+  name,
+  friendIds,
+  message,
+}: {
+  name: string;
+  friendIds: Array<string>;
+  message: string;
+}) => {
+  try {
+    const response = await axios.post("/api/v1/chats/createGroupChats", {
+      name,
+      friendIds,
       message,
     });
 

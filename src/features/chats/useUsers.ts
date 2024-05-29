@@ -1,9 +1,9 @@
 import { useToast } from "@/components/ui/use-toast";
 import { PageParams, UsersPage } from "@/lib/types";
-import { getAllUnknownUsers } from "@/services/userApi";
+import { getAllUsers as getAllUsersApi } from "@/services/userApi";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const useUnknownUsers = (pageParams: PageParams) => {
+export const useUsers = (pageParams: PageParams) => {
   const { search, size } = pageParams;
   const { toast } = useToast();
 
@@ -14,15 +14,14 @@ export const useUnknownUsers = (pageParams: PageParams) => {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["unknownUsers", search],
-    queryFn: params => getAllUnknownUsers(params.pageParam),
+    queryKey: ["users", search],
+    queryFn: params => getAllUsersApi(params.pageParam),
     initialPageParam: pageParams,
     getNextPageParam: (lastPage: UsersPage) => {
       const { page, isLast } = lastPage;
       return isLast ? undefined : { search, page: page + 1, size };
     },
     select(data) {
-      if (!data) return [];
       return data.pages.flatMap(page => page.users);
     },
   });

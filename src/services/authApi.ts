@@ -14,6 +14,11 @@ export interface SignupParams {
   password: string;
 }
 
+export interface changePasswordParams {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export const getCurrentUser = async () => {
   try {
     const response = await axios.get("/api/v1/auth/me");
@@ -68,6 +73,29 @@ export const signup = async ({
       if (message) throw new Error(message);
 
       throw new Error("Unable to signup. Please try again later.");
+    }
+  }
+};
+
+export const changePassword = async ({
+  currentPassword,
+  newPassword,
+}: changePasswordParams) => {
+  try {
+    const response = await axios.patch("/api/v1/auth/updateMyPassword", {
+      currentPassword,
+      newPassword,
+    });
+
+    return response.data.data.user as User;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const message = error.response?.data.message as string;
+      if (message) throw new Error(message);
+
+      throw new Error(
+        "Unable to change your password. Please try again later."
+      );
     }
   }
 };

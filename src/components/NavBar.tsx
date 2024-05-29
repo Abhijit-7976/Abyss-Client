@@ -1,22 +1,20 @@
-import { toggleDarkMode } from "@/features/theme/themeSlice";
-import type { AppDispatch } from "@/store";
-import {
-  MessageSquareText,
-  Phone,
-  Settings,
-  Sun,
-  Triangle,
-} from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useUser } from "@/features/authentication/useUser";
+import Settings from "@/features/settings/Settings";
+import { MessageSquareText, Phone, SettingsIcon } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
+import { Dialog, DialogTrigger } from "./ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import logo from "/logo.png";
+
+const BASE_NAV_BUTTON_STYLES =
+  "h-10 w-10 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ";
 
 const classNameFunc: (props: {
   isActive: boolean;
@@ -24,24 +22,24 @@ const classNameFunc: (props: {
   isTransitioning: boolean;
 }) => string | undefined = ({ isActive }) => {
   return isActive
-    ? "flex size-10 items-center justify-center rounded-lg hover:text-foreground ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground"
-    : "flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 opacity-85 hover:opacity-100";
+    ? BASE_NAV_BUTTON_STYLES +
+        "bg-primary text-primary-foreground hover:bg-primary/90"
+    : BASE_NAV_BUTTON_STYLES + "hover:bg-accent hover:text-accent-foreground";
 };
 
 const NavBar = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useUser();
 
   return (
     <nav className="h-screen z-10 hidden flex-col border-r bg-background sm:flex">
-      <div className="h-16 p-3 border-b">
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Home">
-          <Triangle className="size-5 fill-foreground" />
-        </Button>
+      <div className="h-16 flex justify-center items-center p-3 border-b">
+        <img
+          className="size-8"
+          src={logo}
+          alt="Logo"
+        />
       </div>
-      <div className="flex flex-col items-center gap-4 x-3 sm:py-5">
+      <div className="flex flex-col items-center gap-2 x-3 sm:py-5">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
@@ -58,6 +56,7 @@ const NavBar = () => {
               Chats
             </TooltipContent>
           </Tooltip>
+
           <Tooltip>
             <TooltipTrigger>
               <NavLink
@@ -75,53 +74,69 @@ const NavBar = () => {
           </Tooltip>
         </TooltipProvider>
       </div>
-      <div className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+      <div className="mt-auto flex flex-col items-center gap-2 px-2 sm:py-5">
         <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <NavLink
-                to="/settings"
-                className={classNameFunc}
-                aria-label="Settings">
-                <Settings className="size-5" />
-              </NavLink>
-            </TooltipTrigger>
-            <TooltipContent
-              side="right"
-              sideOffset={5}>
-              Settings
-            </TooltipContent>
-          </Tooltip>
+          <Dialog>
+            <Tooltip>
+              <DialogTrigger>
+                <TooltipTrigger asChild>
+                  <Button
+                    asChild
+                    size="icon"
+                    variant="ghost">
+                    <div>
+                      <SettingsIcon className="size-5" />
+                    </div>
+                  </Button>
+                </TooltipTrigger>
+              </DialogTrigger>
+              <TooltipContent
+                side="right"
+                sideOffset={5}>
+                Settings
+              </TooltipContent>
+            </Tooltip>
+            <Settings activeTab="general" />
+          </Dialog>
 
-          <Tooltip>
-            <TooltipTrigger>
-              <NavLink
-                to="/profile"
-                className={classNameFunc}
-                aria-label="Profile">
-                <Avatar className="size-6">
-                  <AvatarImage
-                    src="https://images.unsplash.com/photo-1713145872144-351db3748385?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="You"
-                  />
-                  <AvatarFallback className="text-xs">CN</AvatarFallback>
-                </Avatar>
-              </NavLink>
-            </TooltipTrigger>
-            <TooltipContent
-              side="right"
-              sideOffset={5}>
-              Profile
-            </TooltipContent>
-          </Tooltip>
+          <Dialog>
+            <Tooltip>
+              <DialogTrigger>
+                <TooltipTrigger asChild>
+                  <Button
+                    asChild
+                    size="icon"
+                    variant="ghost">
+                    <div>
+                      <Avatar className="size-6 opacity-85 hover:opacity-100">
+                        <AvatarImage
+                          src={user?.avatar || ""}
+                          alt="You"
+                        />
+                        <AvatarFallback className="text-xs">
+                          {user?.username.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                  </Button>
+                </TooltipTrigger>
+              </DialogTrigger>
+              <TooltipContent
+                side="right"
+                sideOffset={5}>
+                Profile
+              </TooltipContent>
+            </Tooltip>
+            <Settings activeTab="profile" />
+          </Dialog>
 
-          <Button
+          {/* <Button
             size="icon"
             onClick={() => {
               dispatch(toggleDarkMode());
             }}>
             <Sun className="size-5"></Sun>
-          </Button>
+          </Button> */}
         </TooltipProvider>
       </div>
     </nav>

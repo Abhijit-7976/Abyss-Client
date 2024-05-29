@@ -38,8 +38,11 @@ export const useChatMessages = (size?: number) => {
       return { chatId, cursor: lastCursor, size };
     },
     select: data => {
-      const length = data.pages.length;
       const messages: Array<ChatMessage> = [];
+
+      if (!data) return messages;
+
+      const length = data.pages.length;
       for (let i = length - 1; i >= 0; i--) {
         if (data.pages[i].messages.length > 0) {
           messages.push(...data.pages[i].messages);

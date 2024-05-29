@@ -1,11 +1,8 @@
 import Message from "@/components/Message";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ChatMessage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { RootState } from "@/store";
-import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -42,10 +39,9 @@ const ChatRoomMessages = () => {
   return (
     <>
       <div className="flex flex-col-reverse overflow-auto h-[calc(100vh-8rem)] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-border scrollbar-track-background">
-        <div className="flex-1 flex flex-col px-24 py-2">
+        <div className="flex-1 flex flex-col px-32 py-2">
           {chatMessageData.map((message, index) => {
             const isCurrentUser = message.sender._id === user?._id;
-            // const isCurrentUser = false;
             const isPrevSameSender =
               chatMessageData[index - 1]?.sender._id === message.sender._id;
 
@@ -58,6 +54,7 @@ const ChatRoomMessages = () => {
               nextMessage?.sender._id === message.sender._id;
             return (
               <Message
+                isAvatar={!isCurrentUser}
                 key={message._id}
                 data={message}
                 isCurrentUser={isCurrentUser}
@@ -68,7 +65,6 @@ const ChatRoomMessages = () => {
           })}
           {newMessages.map((message, index) => {
             const isCurrentUser = message.sender._id === user?._id;
-            // const isCurrentUser = false;
             const prevMessage =
               index > 0
                 ? newMessages[index - 1]
@@ -80,6 +76,7 @@ const ChatRoomMessages = () => {
               newMessages[index + 1]?.sender._id === message.sender._id;
             return (
               <Message
+                isAvatar={!isCurrentUser}
                 key={message._id}
                 data={message}
                 isCurrentUser={isCurrentUser}
