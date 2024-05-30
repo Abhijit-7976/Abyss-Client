@@ -58,6 +58,7 @@ const ChatRoom = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    if (values.messageText.trim() === "") return;
     const message = { text: values.messageText };
 
     chatSocket.emit(
