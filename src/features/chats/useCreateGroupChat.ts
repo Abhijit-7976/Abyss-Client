@@ -8,11 +8,10 @@ export const useCreateGroupChat = () => {
 
   const { mutate: createGroupChat, isPending } = useMutation({
     mutationFn: createGroupChatApi,
-    onSuccess: async () =>
-      Promise.all([
-        await queryClient.invalidateQueries({ queryKey: ["groupChats"] }),
-        await queryClient.invalidateQueries({ queryKey: ["users"] }),
-      ]),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["groupChats"] });
+      await queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
     onError: error => {
       toast({
         variant: "destructive",

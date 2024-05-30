@@ -3,7 +3,6 @@ import type { Chat, ChatApiData, ChatPage, PageParams } from "@/lib/types";
 import { getAllPrivateChats } from "@/services/chatApi";
 import { QueryKey, useInfiniteQuery } from "@tanstack/react-query";
 
-// FIXME: fix types
 export const usePrivateChats = (pageParams: PageParams) => {
   const { search, size } = pageParams;
   const { toast } = useToast();
@@ -23,10 +22,7 @@ export const usePrivateChats = (pageParams: PageParams) => {
     PageParams
   >({
     queryKey: ["privateChats", search],
-    queryFn: params => {
-      console.log(params);
-      return getAllPrivateChats(params.pageParam);
-    },
+    queryFn: params => getAllPrivateChats(params.pageParam),
     initialPageParam: pageParams,
     getNextPageParam: (lastPage?: ChatPage) => {
       const { page, isLast } = lastPage!;
@@ -34,7 +30,7 @@ export const usePrivateChats = (pageParams: PageParams) => {
     },
     select(data) {
       if (!data) return [];
-      return data.pages.flatMap(page => page!.chats);
+      return data.pages.flatMap(page => page?.chats || []);
     },
   });
 

@@ -76,9 +76,10 @@ const Signup = () => {
 
   return (
     <div className="w-full h-dvh lg:grid lg:grid-cols-2">
-      <div className="h-screen object-cover overflow-hidden">
-        <img src={bg} />
-      </div>
+      <img
+        src={bg}
+        className="h-full object-cover"
+      />
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[400px] gap-6">
           <div className="grid gap-3 text-center">

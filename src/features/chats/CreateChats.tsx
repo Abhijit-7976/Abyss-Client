@@ -61,7 +61,7 @@ const CreateChats = ({
 
   useEffect(() => {
     if (!open) {
-      queryClient.invalidateQueries({ queryKey: ["users", usersSearch] });
+      queryClient.invalidateQueries({ queryKey: ["unknownUsers"] });
     }
   }, [open, queryClient, usersSearch]);
 

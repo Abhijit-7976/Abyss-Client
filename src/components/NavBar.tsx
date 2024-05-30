@@ -58,7 +58,7 @@ const NavBar = () => {
           </Tooltip>
 
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
               {/* <NavLink
                 to="/calls"
                 className={classNameFunc}

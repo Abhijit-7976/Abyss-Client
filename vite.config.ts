@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://abyss.ap-south-1.elasticbeanstalk.com/",
+        target: "http://localhost:8000",
         changeOrigin: true,
         secure: false,
       },

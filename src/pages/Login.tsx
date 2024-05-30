@@ -114,9 +114,10 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="object-cover overflow-hidden">
-        <img src={bg} />
-      </div>
+      <img
+        src={bg}
+        className="h-full object-cover"
+      />
     </div>
   );
 };

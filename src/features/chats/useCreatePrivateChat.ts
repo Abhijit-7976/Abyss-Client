@@ -8,11 +8,10 @@ export const useCreatePrivateChat = () => {
 
   const { mutate: createPrivateChat, isPending } = useMutation({
     mutationFn: createPrivateChatApi,
-    onSuccess: () =>
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["privateChats"] }),
-        queryClient.invalidateQueries({ queryKey: ["unknownUsers"] }),
-      ]),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["privateChats"] });
+      await queryClient.invalidateQueries({ queryKey: ["unknownUsers"] });
+    },
     onError: error => {
       toast({
         variant: "destructive",

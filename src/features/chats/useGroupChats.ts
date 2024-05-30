@@ -3,7 +3,6 @@ import type { Chat, ChatApiData, ChatPage, PageParams } from "@/lib/types";
 import { getAllGroupChats } from "@/services/chatApi";
 import { useInfiniteQuery, type QueryKey } from "@tanstack/react-query";
 
-// FIXME: fix types
 export const useGroupChats = (pageParams: PageParams) => {
   const { search, size } = pageParams;
   const { toast } = useToast();
@@ -31,7 +30,7 @@ export const useGroupChats = (pageParams: PageParams) => {
     },
     select(data) {
       if (!data) return [];
-      return data.pages.flatMap(page => page!.chats);
+      return data.pages.flatMap(page => page?.chats || []);
     },
   });
 

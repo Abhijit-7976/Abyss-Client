@@ -44,6 +44,15 @@ const ConfirmCreateGroupChat = ({
   const [message, setMessage] = useState("Hello everyone!");
   const friendIds = friends.map(friend => friend._id);
 
+  let friendNames = `${friends[0].username}`;
+  if (friends.length === 2) {
+    friendNames += `and ${friends[1].username}`;
+  } else if (friends.length === 3) {
+    friendNames += `and ${friends[2]?.username}`;
+  } else if (friends.length > 3) {
+    friendNames += `and ${friends.length - 2} others`;
+  }
+
   const handleSubmit = () => {
     createGroupChat(
       { name, friendIds, message },
@@ -72,14 +81,8 @@ const ConfirmCreateGroupChat = ({
         <DialogTitle>Start a Private Conversation</DialogTitle>
         <DialogDescription>
           Create a group chat with{" "}
-          <span className="italic font-bold">{`${friends[0].username}, ${
-            friends[1].username
-          } and ${
-            friends.length < 3
-              ? friends[2].username
-              : `${friends.length - 2} others`
-          }`}</span>
-          . Share your first message below, and let's kick off our conversation!
+          <span className="italic font-bold">{friendNames}</span>. Share your
+          first message below, and let's kick off our conversation!
         </DialogDescription>
       </DialogHeader>
       <div className="space-y-1">
