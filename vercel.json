@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/api/v1/*",
-      "destination": "https:/abyss.v1.amdev.live/api/v1/*"
+      "source": "/api/:path*",
+      "destination": "https:/abyss.v1.amdev.live/api/:path*"
     },
     {
-      "source": "/ws",
-      "destination": "https:/abyss.v1.amdev.live/ws"
+      "source": "/ws/:path*",
+      "destination": "https:/abyss.v1.amdev.live/ws/:path*"
     }
   ]
 }
