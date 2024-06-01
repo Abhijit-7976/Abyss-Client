@@ -6,6 +6,7 @@ import AppLayout from "./components/AppLayout";
 import ChatRoom from "./features/chats/ChatRoom";
 import Chats from "./pages/Chats";
 import Login from "./pages/Login";
+import PageNotFound from "./pages/PageNotFound";
 import Signup from "./pages/Signup";
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 

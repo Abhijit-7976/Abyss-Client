@@ -4,8 +4,8 @@ import { io } from "socket.io-client";
 const wsSlice = createSlice({
   name: "ws",
   initialState: {
-    mediasoupSocket: io("http://localhost:8000/mediasoup", { path: "/ws" }),
-    chatSocket: io("http://localhost:8000/chats", { path: "/ws" }),
+    mediasoupSocket: io("/mediasoup", { path: "/ws" }),
+    chatSocket: io("/chats", { path: "/ws" }),
   },
   reducers: {},
 });

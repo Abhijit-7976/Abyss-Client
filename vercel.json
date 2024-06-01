@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api",
+      "destination": "https:/abyss.v1.amdev.live"
+    }
+  ]
+}
