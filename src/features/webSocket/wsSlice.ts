@@ -4,8 +4,12 @@ import { io } from "socket.io-client";
 const wsSlice = createSlice({
   name: "ws",
   initialState: {
-    mediasoupSocket: io("/mediasoup", { path: "/ws" }),
-    chatSocket: io("/chats", { path: "/ws" }),
+    mediasoupSocket: io(`${import.meta.env.VITE_WS_BASE_URL}/mediasoup`, {
+      path: "/ws",
+    }),
+    chatSocket: io(`${import.meta.env.VITE_WS_BASE_URL}/chats`, {
+      path: "/ws",
+    }),
   },
   reducers: {},
 });
