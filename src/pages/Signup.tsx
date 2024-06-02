@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 
 import { CalendarIcon, Loader2 } from "lucide-react";
@@ -51,8 +51,6 @@ const formSchema = z
   );
 
 const Signup = () => {
-  const navigate = useNavigate();
-
   const { signup, isPending } = useSignup();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -66,12 +64,7 @@ const Signup = () => {
   });
 
   function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    signup(values, {
-      onSuccess: () => {
-        navigate("/");
-      },
-    });
+    signup(values);
   }
 
   return (
