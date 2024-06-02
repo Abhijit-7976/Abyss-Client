@@ -16,7 +16,7 @@ const Settings = ({ activeTab }: SettingsProps) => {
   return (
     <DialogContent
       closeBtn={false}
-      className="min-h-[35rem] p-0 left-2 top-auto bottom-2 h-[60vh] w-[30vw] min-w-[20rem] max-w-[35rem] translate-x-0 translate-y-0 data-[state=closed]:!slide-out-to-left-0 data-[state=closed]:!slide-out-to-top-0 data-[state=open]:!slide-in-from-left-0 data-[state=open]:!slide-in-from-top-0">
+      className="h-[60vh] min-h-[35rem] w-[30vw] min-w-[30rem] max-w-[40rem] p-0 left-2 top-auto bottom-2 translate-x-0 translate-y-0 data-[state=closed]:!slide-out-to-left-0 data-[state=closed]:!slide-out-to-top-0 data-[state=open]:!slide-in-from-left-0 data-[state=open]:!slide-in-from-top-0">
       <Tabs
         defaultValue={activeTab}
         orientation="horizontal"
