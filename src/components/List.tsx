@@ -1,35 +1,46 @@
-import { Search } from "lucide-react";
+import type { Chat } from "@/lib/types";
+import { Loader2 } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
 import Item, { ItemProps } from "./Item";
-import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 
 interface ListProps {
-  data: Array<ItemProps>;
+  data?: Array<ItemProps | Chat>;
+  infiniteScrollRef?: (node?: Element | null | undefined) => void;
+  isFetching: boolean;
+  size?: "default" | "sm" | "lg";
 }
 
-const List = ({ data }: ListProps) => {
+const List = ({ data, size, infiniteScrollRef, isFetching }: ListProps) => {
+  const navigate = useNavigate();
+  const { chatId } = useParams();
+
   return (
     <>
-      <div className="p-4">
-        <div className="relative">
-          <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search"
-            className="pl-8 bg-background/60 hover:bg-background/80 transition-colors"
-          />
-        </div>
-      </div>
-      <ScrollArea className="h-[calc(100vh-8.5rem)]">
-        <div className="px-4 space-y-2">
-          {data.map(item => (
+      <ScrollArea className="h-[calc(100vh-9.5rem)]">
+        <div className="px-4 py-1 space-y-2">
+          {data?.map(item => (
             <Item
-              username={item.username}
-              description={item.description}
-              time={item.time}
-              avatar={item.avatar}
+              className={chatId === item._id ? "bg-accent" : ""}
+              key={item._id}
+              name={item.name}
+              description={
+                (item as Chat).lastMessage || (item as ItemProps).description
+              }
+              time={(item as Chat).updatedAt || (item as ItemProps).time}
+              image={item.image}
               ping={item.ping}
+              size={size}
+              onClick={() => {
+                navigate(`${item._id}`);
+              }}
             />
           ))}
+        </div>
+        <div ref={infiniteScrollRef}>
+          {isFetching && (
+            <Loader2 className="mt-2 mx-auto animate-spin text-muted-foreground" />
+          )}
         </div>
       </ScrollArea>
     </>

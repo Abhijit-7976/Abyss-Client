@@ -1,19 +1,29 @@
-import axios, { AxiosError } from "axios";
+import { User } from "@/lib/types";
+import { axiosInstance as axios } from "@/lib/utils";
+import { AxiosError } from "axios";
 
-export type LoginParams = { email: string; password: string };
+export interface LoginParams {
+  email: string;
+  password: string;
+}
 
-export type SignupParams = {
+export interface SignupParams {
   username: string;
   dob: Date;
   email: string;
   password: string;
-};
+}
+
+export interface changePasswordParams {
+  currentPassword: string;
+  newPassword: string;
+}
 
 export const getCurrentUser = async () => {
   try {
     const response = await axios.get("/api/v1/auth/me");
 
-    return response.data.data.user;
+    return response.data.data.user as User;
   } catch (error) {
     if (error instanceof AxiosError) {
       const message = error.response?.data.message as string;
@@ -31,7 +41,7 @@ export const login = async ({ email, password }: LoginParams) => {
       password,
     });
 
-    return response.data;
+    return response.data.data.user as User;
   } catch (error) {
     if (error instanceof AxiosError) {
       const message = error.response?.data.message as string;
@@ -56,13 +66,36 @@ export const signup = async ({
       password,
     });
 
-    return response.data;
+    return response.data.data.user as User;
   } catch (error) {
     if (error instanceof AxiosError) {
       const message = error.response?.data.message as string;
       if (message) throw new Error(message);
 
       throw new Error("Unable to signup. Please try again later.");
+    }
+  }
+};
+
+export const changePassword = async ({
+  currentPassword,
+  newPassword,
+}: changePasswordParams) => {
+  try {
+    const response = await axios.patch("/api/v1/auth/updateMyPassword", {
+      currentPassword,
+      newPassword,
+    });
+
+    return response.data.data.user as User;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const message = error.response?.data.message as string;
+      if (message) throw new Error(message);
+
+      throw new Error(
+        "Unable to change your password. Please try again later."
+      );
     }
   }
 };

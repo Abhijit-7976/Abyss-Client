@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 
 import { CalendarIcon, Loader2 } from "lucide-react";
@@ -23,8 +23,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useToast } from "@/components/ui/use-toast";
 import { useSignup } from "@/features/authentication/useSignup";
+import bg from "/bg_2.jpeg";
 
 const formSchema = z
   .object({
@@ -42,7 +42,6 @@ const formSchema = z
   })
   .refine(
     data => {
-      console.log(data);
       return data.password === data.confirmPassword;
     },
     {
@@ -52,9 +51,6 @@ const formSchema = z
   );
 
 const Signup = () => {
-  const navigate = useNavigate();
-
-  const { toast } = useToast();
   const { signup, isPending } = useSignup();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -68,25 +64,15 @@ const Signup = () => {
   });
 
   function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    signup(values, {
-      onSuccess: () => {
-        navigate("/");
-      },
-      onError: err => {
-        toast({
-          variant: "destructive",
-          title: err.message,
-        });
-      },
-    });
+    signup(values);
   }
 
   return (
     <div className="w-full h-dvh lg:grid lg:grid-cols-2">
-      <div className="hidden bg-muted lg:block">
-        <h1 className="text-3xl font-bold text-center pt-12">Image</h1>
-      </div>
+      <img
+        src={bg}
+        className="h-full object-cover"
+      />
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[400px] gap-6">
           <div className="grid gap-3 text-center">
@@ -224,12 +210,12 @@ const Signup = () => {
                 className="w-full"
                 type="submit">
                 {isPending ? (
-                  <span>
+                  <>
                     <Loader2 className="inline mr-2 h-4 w-4 animate-spin" />
                     Registering...
-                  </span>
+                  </>
                 ) : (
-                  "Submit"
+                  "Sign up"
                 )}
               </Button>
             </form>

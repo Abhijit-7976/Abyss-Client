@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https:/abyss.v1.amdev.live/api/:path*"
+    },
+    {
+      "source": "/ws/:path*",
+      "destination": "https:/abyss.v1.amdev.live/ws/:path*"
+    }
+  ]
+}

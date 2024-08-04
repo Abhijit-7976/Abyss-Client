@@ -1,5 +1,12 @@
 import { Plus } from "lucide-react";
-import List from "../../components/List";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import {
   Tabs,
@@ -7,32 +14,58 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../components/ui/tabs";
+import CreateChats from "./CreateChats";
+import CreateGroupChat from "./CreateGroupChat";
+import GroupChats from "./GroupChats";
+import PrivateChats from "./PrivateChats";
 
 const ChatsMenu = () => {
-  const chats = Array.from({ length: 20 }).map((_, i) => {
-    return {
-      avatar:
-        i % 2 === 0
-          ? "https://images.unsplash.com/photo-1713145872144-351db3748385?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          : undefined,
-      username: "Shinigami",
-      time: i % 2 === 0 ? new Date() : undefined,
-      ping: i % 3 === 0 ? true : false,
-      description: i % 2 === 0 ? "Hello there! How are you?" : undefined,
-    };
-  });
+  const [createChatOpen, setCreateChatOpen] = useState(false);
+  const [isNewGroup, setIsNewGroup] = useState(false);
+  const [tabValue, setTabValue] = useState<"private" | "group">("private");
 
   return (
-    <Tabs defaultValue="private">
+    <Tabs
+      value={tabValue}
+      onValueChange={value => {
+        setTabValue(value as "private" | "group");
+      }}>
       <div className="flex h-16 items-center justify-between px-4 py-2 border-b">
         <h4 className="text-xl font-semibold tracking-tight">Chats</h4>
         <div className="flex items-center gap-2">
-          <Button
-            className="rounded-full"
-            variant="ghost"
-            size="icon">
-            <Plus className="size-5" />
-          </Button>
+          <Popover
+            open={createChatOpen}
+            onOpenChange={setCreateChatOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                className={cn(
+                  "rounded-full text-muted-foreground",
+                  createChatOpen && "bg-muted text-foreground"
+                )}
+                variant="ghost"
+                size="icon">
+                <Plus className="size-5" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="relative h-[30rem] p-0 flex flex-col gap-1 overflow-hidden"
+              sideOffset={8}
+              align="start">
+              <CreateGroupChat
+                open={isNewGroup}
+                setOpen={setIsNewGroup}
+                setCreateChatOpen={setCreateChatOpen}
+                setTabValue={setTabValue}
+                className="z-50"
+              />
+              <CreateChats
+                open={createChatOpen}
+                setOpen={setCreateChatOpen}
+                setOpenGroup={setIsNewGroup}
+                setTabValue={setTabValue}
+              />
+            </PopoverContent>
+          </Popover>
           <TabsList>
             <TabsTrigger value="private">Private</TabsTrigger>
             <TabsTrigger value="group">Group</TabsTrigger>
@@ -41,13 +74,13 @@ const ChatsMenu = () => {
       </div>
       <TabsContent
         value="private"
-        className="mt-0">
-        <List data={chats} />
+        className="mt-0 h-[calc(100vh-4rem)]">
+        <PrivateChats />
       </TabsContent>
       <TabsContent
         value="group"
-        className="mt-0">
-        <List data={chats} />
+        className="mt-0 h-[calc(100vh-4rem)]">
+        <GroupChats />
       </TabsContent>
     </Tabs>
   );

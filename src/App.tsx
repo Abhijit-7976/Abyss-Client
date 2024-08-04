@@ -7,6 +7,7 @@ import CallRoom from "./features/calls/CallRoom";
 import ChatRoom from "./features/chats/ChatRoom";
 import Chats from "./pages/Chats";
 import Login from "./pages/Login";
+import PageNotFound from "./pages/PageNotFound";
 import Signup from "./pages/Signup";
 
 const router = createBrowserRouter([
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
         path: "chats",
         element: <Chats />,
         children: [
-          { path: ":id", element: <ChatRoom /> },
+          { path: ":chatId", element: <ChatRoom /> },
           { path: ":id/call", element: <CallRoom /> },
         ],
       },
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 

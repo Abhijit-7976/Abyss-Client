@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 
 import { Loader2 } from "lucide-react";
@@ -15,10 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import { useLogin } from "@/features/authentication/useLogin";
-import { useUser } from "@/features/authentication/useUser";
-import { useEffect } from "react";
+import bg from "/bg_1.jpeg";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -28,31 +26,18 @@ const formSchema = z.object({
 });
 
 const Login = () => {
-  const navigate = useNavigate();
-
-  const { toast } = useToast();
   const { login, isPending } = useLogin();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "user@test.com",
-      password: "12345678",
+      email: "",
+      password: "",
     },
   });
 
   function handleSubmit(values: z.infer<typeof formSchema>) {
-    login(values, {
-      onSuccess: () => {
-        navigate("/");
-      },
-      onError: err => {
-        toast({
-          variant: "destructive",
-          title: err.message,
-        });
-      },
-    });
+    login(values);
   }
 
   return (
@@ -108,12 +93,12 @@ const Login = () => {
                 className="w-full"
                 type="submit">
                 {isPending ? (
-                  <span>
+                  <>
                     <Loader2 className="inline mr-2 h-4 w-4 animate-spin" />
                     Verifying...
-                  </span>
+                  </>
                 ) : (
-                  "Submit"
+                  "Login"
                 )}
               </Button>
             </form>
@@ -129,9 +114,10 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="hidden bg-muted lg:block">
-        <h1 className="text-3xl font-bold text-center pt-12">Image</h1>
-      </div>
+      <img
+        src={bg}
+        className="h-full object-cover"
+      />
     </div>
   );
 };

@@ -1,20 +1,23 @@
-import { type ApiData, type AuthData } from "@/lib/types";
+import { useToast } from "@/components/ui/use-toast";
 import { login as loginApi } from "@/services/authApi";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 export function useLogin() {
-  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const { mutate: login, isPending } = useMutation({
+    mutationKey: ["user"],
     mutationFn: loginApi,
-
-    onSuccess: (data: ApiData<AuthData>) => {
-      const user = data?.data?.user;
-      queryClient.setQueryData(["user"], user);
+    onSuccess: () => {
+      navigate("/chats");
     },
-
     onError: error => {
-      console.error(error);
+      toast({
+        variant: "destructive",
+        title: error.message,
+      });
     },
   });
 

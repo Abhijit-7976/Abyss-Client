@@ -1,7 +1,4 @@
-import {
-  toggleDarkMode,
-  toggleDarkModeEffect,
-} from "@/features/theme/themeSlice";
+import { changeTheme, changeThemeEffect } from "@/features/theme/themeSlice";
 import { AppDispatch, RootState } from "@/store";
 import { addListener, createListenerMiddleware } from "@reduxjs/toolkit";
 
@@ -14,7 +11,11 @@ export const startAppListening = listenerMiddleware.startListening.withTypes<
 
 export const addAppListener = addListener.withTypes<RootState, AppDispatch>();
 
+// startAppListening({
+//   actionCreator: toggleDarkMode,
+//   effect: toggleDarkModeEffect,
+// });
 startAppListening({
-  actionCreator: toggleDarkMode,
-  effect: toggleDarkModeEffect,
+  actionCreator: changeTheme,
+  effect: changeThemeEffect,
 });

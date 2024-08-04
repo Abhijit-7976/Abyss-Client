@@ -9,14 +9,27 @@ import { Provider } from "react-redux";
 import "./index.css";
 import { store } from "./store.ts";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+    mutations: { retry: false },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <App />
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools
+          buttonPosition="top-right"
+          initialIsOpen={false}
+          position="right"
+        />
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>

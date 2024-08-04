@@ -4,50 +4,61 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 export interface ItemProps extends React.ComponentProps<typeof Button> {
-  username: string;
+  _id?: string;
+  name: string;
   description?: string;
-  avatar?: string;
+  image?: string;
   time?: Date;
   active?: boolean;
   ping?: boolean;
 }
 
 const Item = ({
-  username,
+  name,
   description,
-  avatar,
+  image,
   time,
   active,
   ping,
   className,
+  size,
+  onClick,
 }: ItemProps) => {
   return (
     <Button
       variant="outline"
       className={cn(
-        "relative px-4 py-3 h-20 w-full  grid grid-cols-[3rem_minmax(0,_1fr)_max-content] grid-rows-2 gap-x-4",
+        "px-4 py-3 h-20 w-full grid grid-cols-[3rem_minmax(0,_1fr)_max-content] grid-rows-2 gap-x-4",
         active && "bg-accent",
+        size === "sm" && "h-fit px-2.5 py-1 gap-x-1",
         className
-      )}>
-      <Avatar className="relative size-12 row-span-2 ring-2 ring-background">
+      )}
+      onClick={onClick}>
+      <Avatar
+        className={cn(
+          "size-12 row-span-2 ring-2 ring-background",
+          size === "sm" && "size-10"
+        )}>
         <AvatarImage
-          src={avatar || ""}
-          alt={username}
+          src={image || ""}
+          alt={name}
         />
-        <AvatarFallback className={cn("text-lg")}>
-          {username.charAt(0)}
+        <AvatarFallback
+          className={cn("text-xl font-semibold", size === "sm" && "text-md")}>
+          {name.charAt(0).toUpperCase()}
         </AvatarFallback>
       </Avatar>
       <h5
         className={cn(
           "text-lg font-semibold tracking-tight w-full text-left",
+          size === "sm" && "text-md",
           !description && "row-span-2"
         )}>
-        {username}
+        {name}
       </h5>
       {time && (
         <p className="text-sm text-muted-foreground justify-self-end">
-          {format(time.toString(), "p")}
+          {format(time, "HH:mm")}
         </p>
       )}
       {description && (
