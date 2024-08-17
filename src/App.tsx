@@ -5,6 +5,7 @@ import { Toaster } from "./components/ui/toaster";
 import AppLayout from "./components/AppLayout";
 import CallRoom from "./features/calls/CallRoom";
 import ChatRoom from "./features/chats/ChatRoom";
+import useUserMedia from "./hooks/useUserMedia";
 import Chats from "./pages/Chats";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
@@ -40,6 +41,8 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  useUserMedia();
+
   return (
     <>
       <RouterProvider router={router} />

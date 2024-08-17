@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Badge } from "./ui/badge";
 
-const Duration = () => {
+const Duration = (props: React.ComponentProps<typeof Badge>) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -22,7 +22,9 @@ const Duration = () => {
     return () => clearInterval(intervalId);
   });
   return (
-    <Badge variant="outline">
+    <Badge
+      variant="outline"
+      className={props.className}>
       {hours && hours < 10 ? "0" + hours : hours}:
       {minutes < 10 ? "0" + minutes : minutes}:
       {seconds < 10 ? "0" + seconds : seconds}
